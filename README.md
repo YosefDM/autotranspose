@@ -26,22 +26,14 @@ naturals. The shift is only applied once it is worth applying.*
 ```powershell
 git clone https://github.com/YosefDM/autotranspose.git
 cd autotranspose
-.\run.cmd devices
+.\run.cmd run
 ```
 
-`run.cmd` creates the virtual environment and installs dependencies on first use,
-so that is the whole setup. Python 3.10+ required.
-
-Then build the native pitch-shift engine, which is a large quality win and a
-tenth of the CPU:
-
-```powershell
-native\build.bat
-```
-
-That needs MSVC Build Tools with "Desktop development with C++", and fetches two
-MIT-licensed header libraries at pinned revisions. It is optional — without it
-the app falls back to a pure-numpy phase vocoder and still runs.
+That is the whole setup. `run.cmd` creates the virtual environment and installs
+the Python dependencies the first time you use it. Python 3.10+ required, and
+nothing else — the pitch-shift engine is included as a prebuilt DLL that depends
+only on `KERNEL32.dll`, so there is no compiler and no Visual C++ redistributable
+to install.
 
 ## Quick start
 
@@ -237,16 +229,19 @@ The shifting is done by **Signalsmith Stretch** (MIT), a production-grade
 real-time engine, built as a small DLL. A hand-written numpy phase vocoder is the
 fallback when that DLL has not been built, so the app runs anywhere.
 
-Build the DLL once:
+The DLL is committed to this repository, so it just works. `--engine vocoder`
+forces the numpy fallback if you want to compare, and `--engine signalsmith`
+fails loudly rather than silently falling back.
+
+If you would rather build it yourself than trust a binary — a reasonable
+instinct — the source is `native/stretch_wrapper.cpp`, 80 lines of C, and:
 
 ```powershell
 native\build.bat
 ```
 
-It needs MSVC Build Tools ("Desktop development with C++"). Without it everything
-still works on the fallback; `--engine vocoder` forces the fallback, `--engine
-signalsmith` fails loudly if the DLL is missing, and the default `auto` prefers
-Signalsmith.
+rebuilds it with MSVC Build Tools ("Desktop development with C++"), fetching the
+two MIT header libraries at pinned revisions first.
 
 Measured on real music at +4 semitones (`tools/offline_shift.py`,
 `tools/quality.py`):

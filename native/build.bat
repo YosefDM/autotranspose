@@ -15,7 +15,7 @@ rem Dependencies are fetched, not vendored.
 if not exist "%ROOT%	hird_party\signalsmith-stretch\signalsmith-stretch.h" call "%~dp0fetch_deps.bat"
 if not exist "%ROOT%	hird_party\linear\include\signalsmith-linear\stft.h" call "%~dp0fetch_deps.bat"
 
-cl /nologo /LD /O2 /EHsc /std:c++17 /DNDEBUG ^
+cl /nologo /LD /MT /O2 /EHsc /std:c++17 /DNDEBUG ^
    /I "%ROOT%\third_party\signalsmith-stretch" ^
    /I "%ROOT%\third_party\linear\include" ^
    "%~dp0stretch_wrapper.cpp" ^

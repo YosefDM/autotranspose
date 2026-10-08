@@ -2,14 +2,13 @@ __pycache__/
 .venv/
 *.pyc
 
-# built native extension
-# build it with native/build.bat
-autotranspose/*.dll
+# the pitch-shift engine ships prebuilt in autotranspose/, so it is NOT ignored
+# build leftovers are
 native/*.obj
 native/*.lib
 native/*.exp
 
-# fetched at pinned revisions by native/fetch_deps.bat
+# fetched at pinned revisions by native/fetch_deps.bat, only needed to rebuild
 third_party/
 
 # personal recordings and cached analysis
