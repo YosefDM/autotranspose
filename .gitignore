@@ -1,0 +1,18 @@
+__pycache__/
+.venv/
+*.pyc
+
+# built native extension
+# build it with native/build.bat
+autotranspose/*.dll
+native/*.obj
+native/*.lib
+native/*.exp
+
+# fetched at pinned revisions by native/fetch_deps.bat
+third_party/
+
+# personal recordings and cached analysis
+capture/
+*.npz
+*.wav

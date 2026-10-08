@@ -1,0 +1,13 @@
+# Core runtime
+numpy>=1.26
+scipy>=1.11
+soundcard>=0.4.3
+sounddevice>=0.4.6
+librosa>=0.10
+soxr>=0.3
+soundfile>=0.12
+rich>=13.0
+
+# Windows audio control: mute the captured device and switch the default output
+# so no manual setup is needed. Only used from a subprocess (see winaudio.py).
+pycaw>=20230407
