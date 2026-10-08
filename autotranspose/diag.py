@@ -319,7 +319,10 @@ class Diagnostics:
         else:
             t0, off0 = self._drift_base
             dt = now - t0
-            if dt > 1.0:
+            # Over a couple of seconds the figure is dominated by start-up slop
+            # and reports thousands of ppm that mean nothing, so wait for a
+            # window long enough for a real slope to show.
+            if dt >= 15.0:
                 drift = offset - off0
                 stats["drift_frames"] = int(drift)
                 stats["drift_ms"] = round(drift / self.samplerate * 1000.0, 1)

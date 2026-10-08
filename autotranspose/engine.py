@@ -504,6 +504,17 @@ class Engine:
         need = int(cfg.cycle_seconds * cfg.samplerate)
         loud_frames = 0
 
+        try:
+            self._run_analysis(resampler, chroma, estimator, pending, pending_frames,
+                               need, loud_frames)
+        finally:
+            # soxr's nanobind bindings complain loudly at interpreter shutdown if
+            # the stream is still alive, so drop it as soon as the thread ends.
+            del resampler
+
+    def _run_analysis(self, resampler, chroma, estimator, pending, pending_frames,
+                      need, loud_frames) -> None:
+        cfg = self.cfg
         while not self._stop.is_set():
             try:
                 mono = self._analysis_q.get(timeout=0.25)
